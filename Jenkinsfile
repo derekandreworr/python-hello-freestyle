@@ -1,12 +1,12 @@
 node ('docker') {
     checkout scm
-
+    agent { label 'docker' }
     stage('Build image') {
-        def customImage = docker.build("demouser/appimage:${BUILD_NUMBER}")
+        def customImage = docker.build("demouser/newappimage:${BUILD_NUMBER}")
     }
 
     stage('Scan image with Aqua') {
-        aqua locationType: 'local', localImage: 'demouser/appimage:${BUILD_NUMBER}', hideBase: false,  notCompliesCmd: '', onDisallowed: 'fail', showNegligible: false
+        aqua locationType: 'local', localImage: 'demouser/newappimage:${BUILD_NUMBER}', hideBase: false,  notCompliesCmd: '', onDisallowed: 'fail', showNegligible: false
     }
 
     stage('Push to registry') {
@@ -14,7 +14,7 @@ node ('docker') {
     }
 
     stage('Scan image with Aqua') {
-        aqua locationType: 'local', localImage: 'demouser/appimage:${BUILD_NUMBER}', hideBase: false,  notCompliesCmd: '', onDisallowed: 'fail', showNegligible: false, register: true, registry: "Docker Hub"
+        aqua locationType: 'local', localImage: 'demouser/newappimage:${BUILD_NUMBER}', hideBase: false,  notCompliesCmd: '', onDisallowed: 'fail', showNegligible: false, register: true, registry: "Docker Hub"
     }
 
 
