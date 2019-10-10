@@ -1,6 +1,6 @@
 node ('docker') {
     checkout scm
-    agent { label 'docker' }
+    
     stage('Build image') {
         def customImage = docker.build("demouser/newappimage:${BUILD_NUMBER}")
     }
